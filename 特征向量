@@ -1,0 +1,24 @@
+#include<iostream>
+using namespace std;
+const int RANGE_SIZE = 2000;//可以自己设置
+const int BITS_PER_BYTE = 8;
+const int BITS_PER_LONG = BITS_PER_BYTE + sizeof(long);
+const int CVEC_WORDS = (RANGE_SIZE + BITS_PER_LONG - 1) / BITS_PER_LONG;
+
+struct CharacteristicVector
+{
+	unsigned long words[CVEC_WORDS];
+};
+unsigned long CreateMask(int k)
+{
+	return unsigned long(1) << k % BITS_PER_LONG;
+}
+bool TestBit(CharacteristicVector& cv, int k)
+{
+	if (k < 0 || k >= RANGE_SIZE)
+	{
+		cout << "error" << endl;
+		return;
+	}
+	return cv.words[k / BITS_PER_LONG] |= CreateMask(k);
+}
